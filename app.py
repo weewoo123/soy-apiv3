@@ -55,7 +55,7 @@ def output_statement(pred):
     return {"prediction": msg, "accuracy": compareVal}
 #
 @app.route("/")
-def predict():
+def root():
     return "API is up and running!"
 
 @app.route("/predict", methods=['GET', 'POST'])
@@ -80,3 +80,5 @@ def predict():
             output.append({"id":count, "filename": file.filename, "prediction": values["prediction"], "accuracy": values["accuracy"]})
             count += 1
         return output
+    if request.method == "GET":
+        return "Predictions are up and running"
