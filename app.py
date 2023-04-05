@@ -2,9 +2,15 @@ from flask import Flask
 import tensorflow as tf
 import numpy as np
 import keras
+from flask import Flask, request
+from werkzeug.utils import secure_filename
+from flask_cors import CORS
+import os
+
 model = keras.models.load_model("soybeans.h5")
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 def model_predict(img_path):
     #load the image, make sure it is the target size (specified by model code)
@@ -50,4 +56,27 @@ def output_statement(pred):
 #
 @app.route("/")
 def predict():
-    return "Hello World!"
+    return "API is up and running!"
+
+@app.route("/predict", methods=['GET', 'POST'])
+def predict():
+    if request.method == "POST":
+        uploaded_files = request.files.getlist('files[]')
+        output = []
+        count = 0
+        for file in uploaded_files:
+            #need to get image from POST request
+            # #create img_path to call model
+            basepath = os.path.dirname(__file__)
+
+            img_path = os.path.join(basepath, 'uploads', secure_filename(file.filename))            
+
+            file.save(img_path)
+            # #call model
+            pred = model_predict(img_path)
+            pred = pred.tolist()
+
+            values = output_statement(pred)
+            output.append({"id":count, "filename": file.filename, "prediction": values["prediction"], "accuracy": values["accuracy"]})
+            count += 1
+        return output
