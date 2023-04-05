@@ -47,7 +47,7 @@ def output_statement(pred):
     else:
         return '[ERROR]: Out of range'
     return {"prediction": msg, "accuracy": compareVal}
-
+#
 @app.route("/")
 def predict():
     return "Hello World!"
