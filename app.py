@@ -53,15 +53,11 @@ def output_statement(pred):
     else:
         return '[ERROR]: Out of range'
     return {"prediction": msg, "accuracy": compareVal}
-#
-@app.route("/")
-def root():
-    return "API is up and running!"
 
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == "POST":
-        f = request.files['file']
+        f = request.files['image']
         basepath = os.path.dirname(__file__)
         img_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))            
         f.save(img_path)
