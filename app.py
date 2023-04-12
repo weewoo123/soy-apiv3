@@ -21,11 +21,11 @@ def model_predict(img_path):
     img /= 255           
     #expand image dimensions for keras convention
     img = np.expand_dims(img, axis = 0)
-
-    #call model for prediction
+    #set optimizer
     opt = keras.optimizers.RMSprop(learning_rate = 0.01)
-
+    #compile model
     model.compile(optimizer = opt, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
+    #call model for prediction
 
     pred = model.predict(img)
 
@@ -54,7 +54,7 @@ def output_statement(pred):
         return '[ERROR]: Out of range'
     return {"prediction": msg, "accuracy": compareVal}
 ##3
-@app.route("/predict", methods=['GET', 'POST'])
+@app.route("/predict", methods=['POST'])
 def predict():
     if request.method == "POST":
         f = request.files['image']
@@ -69,5 +69,3 @@ def predict():
         os.remove(img_path)
         output = {"id":1, "filename": f.filename, "prediction": values["prediction"], "accuracy": values["accuracy"]}
         return output
-    if request.method == "GET":
-        return "Predictions are up and running"
