@@ -53,7 +53,7 @@ def output_statement(pred):
     else:
         return '[ERROR]: Out of range'
     return {"prediction": msg, "accuracy": compareVal}
-##
+##3
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == "POST":
