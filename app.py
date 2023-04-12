@@ -77,6 +77,7 @@ def predict():
             pred = pred.tolist()
 
             values = output_statement(pred)
+            os.remove(img_path)
             output.append({"id":count, "filename": file.filename, "prediction": values["prediction"], "accuracy": values["accuracy"]})
             count += 1
         return output
