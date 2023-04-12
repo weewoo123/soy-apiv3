@@ -26,7 +26,7 @@ def model_predict(img_path):
     img = np.expand_dims(img, axis = 0)
     #set optimizer
     #compile model
-    #call model for prediction
+    #call model for prediction#
     sys.stdout.write("at model predict")
     pred = model.predict(img)
     sys.stdout.write("past model predict")
