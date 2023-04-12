@@ -61,7 +61,7 @@ def root():
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == "POST":
-        f = request.files('file')
+        f = request.files['file']
         basepath = os.path.dirname(__file__)
         img_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))            
         f.save(img_path)
