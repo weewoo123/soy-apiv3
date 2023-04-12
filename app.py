@@ -8,6 +8,8 @@ from flask_cors import CORS
 import os
 
 model = keras.models.load_model("soybeans.h5")
+opt = keras.optimizers.RMSprop(learning_rate = 0.01)
+model.compile(optimizer = opt, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
@@ -22,11 +24,8 @@ def model_predict(img_path):
     #expand image dimensions for keras convention
     img = np.expand_dims(img, axis = 0)
     #set optimizer
-    opt = keras.optimizers.RMSprop(learning_rate = 0.01)
     #compile model
-    model.compile(optimizer = opt, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
     #call model for prediction
-
     pred = model.predict(img)
 
     return pred
