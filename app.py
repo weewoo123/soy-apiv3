@@ -61,23 +61,17 @@ def root():
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == "POST":
-        uploaded_files = request.files.getlist('files[]')
-        output = []
-        count = 0
-        file = uploaded_files[0]
+        f = request.files('file')
         basepath = os.path.dirname(__file__)
-
-        img_path = os.path.join(basepath, 'uploads', secure_filename(file.filename))            
-
-        file.save(img_path)
+        img_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))            
+        f.save(img_path)
         # #call model
         pred = model_predict(img_path)
         pred = pred.tolist()
 
         values = output_statement(pred)
         os.remove(img_path)
-        output.append({"id":count, "filename": file.filename, "prediction": values["prediction"], "accuracy": values["accuracy"]})
-        count += 1
+        output = {"id":1, "filename": f.filename, "prediction": values["prediction"], "accuracy": values["accuracy"]}
         return output
     if request.method == "GET":
         return "Predictions are up and running"
