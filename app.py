@@ -2,6 +2,7 @@ from flask import Flask
 import tensorflow as tf
 import numpy as np
 import keras
+import sys
 from flask import Flask, request
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
@@ -26,7 +27,9 @@ def model_predict(img_path):
     #set optimizer
     #compile model
     #call model for prediction
+    sys.stdout.write("at model predict")
     pred = model.predict(img)
+    sys.stdout.write("past model predict")
 
     return pred
 
