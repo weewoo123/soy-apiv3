@@ -2,6 +2,7 @@ from flask import Flask
 import tensorflow as tf
 import numpy as np
 import keras
+import sys
 from flask import Flask, request
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
@@ -26,7 +27,8 @@ def model_predict(img_path):
     opt = keras.optimizers.RMSprop(learning_rate = 0.01)
 
     model.compile(optimizer = opt, loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
-
+    sys.stdout.write("predicting")
+    sys.stdout.flush()
     pred = model.predict(img)
 
     return pred
@@ -61,7 +63,9 @@ def root():
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == "POST":
-        file = request.files['file']
+        file = request.files['image']
+        sys.stdout.write("hi")
+        sys.stdout.flush()
         #need to get image from POST request
         # #create img_path to call model
         basepath = os.path.dirname(__file__)
