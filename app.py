@@ -62,7 +62,6 @@ def root():
 def predict():
     if request.method == "POST":
         file = request.files['file']
-        for file in uploaded_files:
         #need to get image from POST request
         # #create img_path to call model
         basepath = os.path.dirname(__file__)
